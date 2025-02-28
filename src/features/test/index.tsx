@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { PaginationState } from '@tanstack/react-table'
 import { Plus } from 'lucide-react'
 import { usePagination } from '@/hooks/use-pagination'
 import { Button } from '@/components/ui/button'
@@ -19,11 +18,12 @@ import { Main } from '@/components/layout/main'
 import { ProfileDropdown } from '@/components/profile-dropdown'
 import { Search } from '@/components/search'
 import { ThemeSwitch } from '@/components/theme-switch'
-import { Fruit, useSearch } from '@/features/test/hooks/use-search'
+import { useSearch } from '@/features/test/hooks/use-search'
 import { columns } from './components/columns'
 import { DataTable } from './components/data-table'
 import { TestDialogs } from './components/test-dialogs'
 import TestProvider from './context/test-context'
+import { Fruit } from './types'
 
 const searchFormSchema = z.object({
   searchTerm: z.string().min(1, { message: 'Search term is required.' }),
@@ -37,7 +37,10 @@ const Test = () => {
     defaultValues: { searchTerm: '' },
     mode: 'onChange',
   })
-  const { pagination, onPaginationChange } = usePagination()
+  const { pagination, onPaginationChange } = usePagination({
+    pageIndex: 1,
+    pageSize: 10,
+  })
   const { data, isLoading, refetch } = useSearch(
     form.watch('searchTerm'),
     pagination.pageIndex,
@@ -115,7 +118,7 @@ const Test = () => {
         </Form>
         <div className='-mx-4 mt-2 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0'>
           <DataTable
-            data={data?.data ?? []}
+            data={tableData}
             total={data?.count || 0}
             columns={columns}
             isLoading={isLoading}

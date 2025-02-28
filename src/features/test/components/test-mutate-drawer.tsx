@@ -24,12 +24,13 @@ import {
 } from '@/components/ui/sheet'
 import { Test } from '../data/schema'
 import { useEdit } from '../hooks/use-edit'
+import { Fruit } from '../types'
 
 interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
   currentRow?: Test
-  handleSuccess?: (updatedItem: Fruit) => void
+  handleSuccess: (updatedItem: Fruit) => void
 }
 
 const formSchema = z.object({
@@ -59,45 +60,53 @@ export function TasksMutateDrawer({
 
   const { mutate } = useEdit()
 
-  const onSubmit = (data: TestForm) => {
-    if (isUpdate && currentRow) {
-      mutate(
-        {
-          id: currentRow.id,
-          name: data.name,
-          description: data.description,
-          category: data.category,
-        },
-        {
-          onSuccess: () => {
+  const handleEdit = (currentRow: Fruit, data: TestForm) => {
+    mutate(
+      {
+        id: currentRow.id,
+        name: data.name,
+        description: data.description,
+        category: data.category,
+      },
+      {
+        onSuccess: ({ data }) => {
+          onOpenChange(false)
+          form.reset()
+
+          if (data && data[0]) {
+            handleSuccess(data[0])
             toast({
               title: '수정 완료',
               description: '데이터가 성공적으로 수정되었습니다.',
             })
-            onOpenChange(false)
-            form.reset()
-            handleSuccess(data)
-          },
-          onError: () => {
-            toast({
-              title: '수정 실패',
-              description: '데이터 수정에 실패했습니다.',
-            })
-          },
-        }
-      )
+          }
+        },
+        onError: () => {
+          toast({
+            title: '수정 실패',
+            description: '데이터 수정에 실패했습니다.',
+          })
+        },
+      }
+    )
+  }
+
+  const handleCreate = () => {
+    onOpenChange(false)
+    form.reset()
+
+    toast({
+      title: '추가 완료',
+    })
+  }
+
+  const onSubmit = (data: TestForm) => {
+    // 수정하기
+    if (isUpdate && currentRow) {
+      handleEdit(currentRow, data)
     } else {
       // 새로운 데이터 추가 로직
-      onOpenChange(false)
-      form.reset()
-      toast({
-        title: 'You submitted the following values:',
-        description: (
-          <pre className='mt-2 w-[340px] rounded-md bg-slate-950 p-4'>
-            <code className='text-white'>{JSON.stringify(data, null, 2)}</code>
-          </pre>
-        ),
-      })
+      handleCreate()
     }
   }
 
@@ -118,7 +127,7 @@ export function TasksMutateDrawer({
         </SheetHeader>
         <Form {...form}>
           <form
-            id='tasks-form'
+            id='test-form'
             onSubmit={form.handleSubmit(onSubmit)}
             className='flex-1 space-y-5'
           >
@@ -188,10 +197,10 @@ export function TasksMutateDrawer({
         </Form>
         <SheetFooter className='gap-2'>
           <SheetClose asChild>
-            <Button variant='outline'>Close</Button>
+            <Button variant='outline'>닫기</Button>
           </SheetClose>
-          <Button form='tasks-form' type='submit'>
-            Save changes
+          <Button form='test-form' type='submit'>
+            저장
           </Button>
         </SheetFooter>
       </SheetContent>

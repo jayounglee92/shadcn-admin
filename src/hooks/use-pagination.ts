@@ -5,11 +5,10 @@ export type Pagination = {
   pageSize: number
 }
 
-export const usePagination = () => {
-  const [pagination, setPagination] = useState<Pagination>({
-    pageIndex: 0,
-    pageSize: 5,
-  })
+export const usePagination = (
+  initialValues: Pagination = { pageIndex: 0, pageSize: 10 }
+) => {
+  const [pagination, setPagination] = useState<Pagination>(initialValues)
 
   const onPageSizeChange = (pageSize: number) => {
     setPagination((prev) => {

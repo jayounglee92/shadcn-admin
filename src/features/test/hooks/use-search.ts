@@ -1,13 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { PostgrestSingleResponse } from '@supabase/supabase-js'
 import supabase from '../../../server/supabase'
-
-export type Fruit = {
-  id: number
-  name: string
-  description: string | null
-  category: string | null
-}
+import { Fruit } from '../types'
 
 const fetchSearchResults = async (
   searchTerm: string = '',
