@@ -4,12 +4,14 @@ Thank you for considering contributing to **shadcn-admin**! Every contribution i
 
 ## Table of Contents
 
-1. [Getting Started](#getting-started)
-2. [How to Contribute](#how-to-contribute)
-3. [Code Standards](#code-standards)
-4. [Pull Request Guidelines](#pull-request-guidelines)
-5. [Reporting Issues](#reporting-issues)
-6. [Community Guidelines](#community-guidelines)
+- [Contributing to Shadcn-Admin](#contributing-to-shadcn-admin)
+  - [Table of Contents](#table-of-contents)
+  - [Getting Started](#getting-started)
+  - [How to Contribute](#how-to-contribute)
+  - [Code Standards](#code-standards)
+  - [Pull Request Guidelines](#pull-request-guidelines)
+  - [Reporting Issues](#reporting-issues)
+  - [Community Guidelines](#community-guidelines)
 
 ---
 
@@ -98,4 +100,4 @@ pnpm lint && pnpm format && pnpm knip && pnpm build
 
 Thank you for helping make **shadcn-admin** better! 🚀
 
-If you have any questions, feel free to reach out via [Discussions](https://github.com/satnaing/shadcn-admin/discussions).
+If you have any questions, feel free to reach out via [Discussions](https://github.com/jayounglee92/shadcn-admin/discussions).
