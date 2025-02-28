@@ -21,7 +21,7 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
-  const task = testSchema.parse(row.original)
+  const test = testSchema.parse(row.original)
 
   const { setOpen, setCurrentRow } = useTest()
 
@@ -39,7 +39,7 @@ export function DataTableRowActions<TData>({
       <DropdownMenuContent align='end' className='w-[160px]'>
         <DropdownMenuItem
           onClick={() => {
-            setCurrentRow(task)
+            setCurrentRow(test)
             setOpen('update')
           }}
         >
@@ -51,7 +51,7 @@ export function DataTableRowActions<TData>({
         <DropdownMenuSeparator />
         <DropdownMenuItem
           onClick={() => {
-            setCurrentRow(task)
+            setCurrentRow(test)
             setOpen('delete')
           }}
         >

@@ -23,6 +23,7 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet'
 import { Test } from '../data/schema'
+import { useCreate } from '../hooks/use-create'
 import { useEdit } from '../hooks/use-edit'
 import { Fruit } from '../types'
 
@@ -34,9 +35,9 @@ interface Props {
 }
 
 const formSchema = z.object({
-  name: z.string().min(1, 'Please select a status.'),
-  description: z.string().min(1, 'Please select a label.'),
-  category: z.string().min(1, 'Please choose a priority.'),
+  name: z.string().min(1, 'Please select a name.'),
+  description: z.string().min(1, 'Please select a description.'),
+  category: z.string().min(1, 'Please choose a category.'),
 })
 
 type TestForm = z.infer<typeof formSchema>
@@ -58,10 +59,11 @@ export function TasksMutateDrawer({
     },
   })
 
-  const { mutate } = useEdit()
+  const { mutate: editMutate } = useEdit()
+  const { mutate: createMutate } = useCreate()
 
   const handleEdit = (currentRow: Fruit, data: TestForm) => {
-    mutate(
+    editMutate(
       {
         id: currentRow.id,
         name: data.name,
@@ -91,13 +93,36 @@ export function TasksMutateDrawer({
     )
   }
 
-  const handleCreate = () => {
+  const handleCreate = (data: Omit<Fruit, 'id'>) => {
     onOpenChange(false)
     form.reset()
+    createMutate(
+      {
+        name: data.name,
+        description: data.description,
+        category: data.category,
+      },
+      {
+        onSuccess: ({ data }) => {
+          onOpenChange(false)
+          form.reset()
 
-    toast({
-      title: '추가 완료',
-    })
+          if (data && data[0]) {
+            console.log(data)
+            toast({
+              title: '추가 완료',
+              description: '데이터가 성공적으로 추가되었습니다.',
+            })
+          }
+        },
+        onError: () => {
+          toast({
+            title: '추가 실패',
+            description: '데이터 추가 실패했습니다.',
+          })
+        },
+      }
+    )
   }
 
   const onSubmit = (data: TestForm) => {
@@ -106,7 +131,7 @@ export function TasksMutateDrawer({
       handleEdit(currentRow, data)
     } else {
       // 새로운 데이터 추가 로직
-      handleCreate()
+      handleCreate(data)
     }
   }
 
@@ -138,7 +163,7 @@ export function TasksMutateDrawer({
                 <FormItem className='space-y-1'>
                   <FormLabel>Name</FormLabel>
                   <FormControl>
-                    <Input {...field} placeholder='Enter a name' />
+                    <Input {...field} placeholder='Enter a name' required />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
