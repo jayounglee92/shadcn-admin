@@ -63,7 +63,7 @@ export function DataTable<TData, TValue>({
     enableRowSelection: true,
     manualPagination: true,
     rowCount: total,
-    // pageCount: count / pageSize,
+    // pageCount: total / pageSize // 서버로 부터 받아온 페이지 수가 있다면 이를 추가할 수도 있음
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -76,7 +76,7 @@ export function DataTable<TData, TValue>({
     getFacetedUniqueValues: getFacetedUniqueValues(),
     onPaginationChange: onPaginationChange,
   })
-  console.log(pagination, total)
+
   return (
     <div className='space-y-4'>
       <div className='rounded-md border'>
