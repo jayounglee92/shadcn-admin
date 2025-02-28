@@ -40,6 +40,9 @@ const AuthenticatedUsersIndexLazyImport = createFileRoute(
 const AuthenticatedTestIndexLazyImport = createFileRoute(
   '/_authenticated/test/',
 )()
+const AuthenticatedTiptapIndexLazyImport = createFileRoute(
+  '/_authenticated/tiptap/',
+)()
 const AuthenticatedTasksIndexLazyImport = createFileRoute(
   '/_authenticated/tasks/',
 )()
@@ -191,6 +194,16 @@ const AuthenticatedTestIndexLazyRoute = AuthenticatedTestIndexLazyImport.update(
   } as any,
 ).lazy(() =>
   import('./routes/_authenticated/test/index.lazy').then((d) => d.Route),
+)
+
+const AuthenticatedTiptapIndexLazyRoute = AuthenticatedTestIndexLazyImport.update(
+  {
+    id: '/tiptap/',
+    path: '/tiptap/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any,
+).lazy(() =>
+  import('./routes/_authenticated/tiptap/index.lazy').then((d) => d.Route),
 )
 
 const AuthenticatedTasksIndexLazyRoute =
@@ -457,6 +470,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedTestIndexLazyImport
       parentRoute: typeof AuthenticatedRouteImport
     }
+    '/_authenticated/tiptap/': {
+      id: '/_authenticated/tiptap/'
+      path: '/tiptap'
+      fullPath: '/tiptap'
+      preLoaderRoute: typeof AuthenticatedTipTapIndexLazyImport
+      parentRoute: typeof AuthenticatedRouteImport
+    }
     '/_authenticated/users/': {
       id: '/_authenticated/users/'
       path: '/users'
@@ -545,6 +565,7 @@ export interface FileRoutesByFullPath {
   '/settings/': typeof AuthenticatedSettingsIndexLazyRoute
   '/tasks': typeof AuthenticatedTasksIndexLazyRoute
   '/test': typeof AuthenticatedTestIndexLazyRoute
+  '/tiptap': typeof AuthenticatedTestIndexLazyRoute
   '/users': typeof AuthenticatedUsersIndexLazyRoute
 }
 
@@ -570,6 +591,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsIndexLazyRoute
   '/tasks': typeof AuthenticatedTasksIndexLazyRoute
   '/test': typeof AuthenticatedTestIndexLazyRoute
+  '/tiptap': typeof AuthenticatedTestIndexLazyRoute
   '/users': typeof AuthenticatedUsersIndexLazyRoute
 }
 
@@ -599,6 +621,7 @@ export interface FileRoutesById {
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexLazyRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexLazyRoute
   '/_authenticated/test/': typeof AuthenticatedTestIndexLazyRoute
+  '/_authenticated/tiptap/': typeof AuthenticatedTestIndexLazyRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexLazyRoute
 }
 
@@ -628,6 +651,7 @@ export interface FileRouteTypes {
     | '/settings/'
     | '/tasks'
     | '/test'
+    | '/tiptap'
     | '/users'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -652,6 +676,7 @@ export interface FileRouteTypes {
     | '/settings'
     | '/tasks'
     | '/test'
+    | '/tiptap'
     | '/users'
   id:
     | '__root__'
@@ -679,6 +704,7 @@ export interface FileRouteTypes {
     | '/_authenticated/settings/'
     | '/_authenticated/tasks/'
     | '/_authenticated/test/'
+    | '/_authenticated/tiptap/'
     | '/_authenticated/users/'
   fileRoutesById: FileRoutesById
 }

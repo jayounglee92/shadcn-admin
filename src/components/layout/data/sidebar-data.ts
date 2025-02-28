@@ -59,11 +59,7 @@ export const sidebarData: SidebarData = {
           url: '/tasks',
           icon: IconChecklist,
         },
-        {
-          title: '테스트',
-          url: '/test',
-          icon: IconChecklist,
-        },
+
         {
           title: 'Apps',
           url: '/apps',
@@ -79,6 +75,16 @@ export const sidebarData: SidebarData = {
           title: 'Users',
           url: '/users',
           icon: IconUsers,
+        },
+        {
+          title: '테스트',
+          url: '/test',
+          icon: IconChecklist,
+        },
+        {
+          title: 'TipTab',
+          url: '/tiptap',
+          icon: IconChecklist,
         },
       ],
     },

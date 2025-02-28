@@ -36,6 +36,6 @@ export const useSearch = (
   return useQuery({
     queryKey: ['searchTerm', searchTerm, pageIndex, pageSize],
     queryFn: () => fetchSearchResults(searchTerm, pageIndex, pageSize),
-    enabled: !searchTerm,
+    // enabled: !searchTerm,
   })
 }

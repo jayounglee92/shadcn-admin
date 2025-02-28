@@ -108,6 +108,7 @@ const Test = () => {
                   size='icon'
                   variant='default'
                   disabled={isLoading}
+                  onClick={onSearchClick}
                   className='w-20'
                 >
                   {isLoading ? '검색 중...' : '검색'}
