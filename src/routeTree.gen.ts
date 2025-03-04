@@ -37,11 +37,11 @@ const AuthenticatedSettingsRouteLazyImport = createFileRoute(
 const AuthenticatedUsersIndexLazyImport = createFileRoute(
   '/_authenticated/users/',
 )()
-const AuthenticatedTestIndexLazyImport = createFileRoute(
-  '/_authenticated/test/',
-)()
 const AuthenticatedTiptapIndexLazyImport = createFileRoute(
   '/_authenticated/tiptap/',
+)()
+const AuthenticatedTestIndexLazyImport = createFileRoute(
+  '/_authenticated/test/',
 )()
 const AuthenticatedTasksIndexLazyImport = createFileRoute(
   '/_authenticated/tasks/',
@@ -186,6 +186,15 @@ const AuthenticatedUsersIndexLazyRoute =
     import('./routes/_authenticated/users/index.lazy').then((d) => d.Route),
   )
 
+const AuthenticatedTiptapIndexLazyRoute =
+  AuthenticatedTiptapIndexLazyImport.update({
+    id: '/tiptap/',
+    path: '/tiptap/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any).lazy(() =>
+    import('./routes/_authenticated/tiptap/index.lazy').then((d) => d.Route),
+  )
+
 const AuthenticatedTestIndexLazyRoute = AuthenticatedTestIndexLazyImport.update(
   {
     id: '/test/',
@@ -194,16 +203,6 @@ const AuthenticatedTestIndexLazyRoute = AuthenticatedTestIndexLazyImport.update(
   } as any,
 ).lazy(() =>
   import('./routes/_authenticated/test/index.lazy').then((d) => d.Route),
-)
-
-const AuthenticatedTiptapIndexLazyRoute = AuthenticatedTestIndexLazyImport.update(
-  {
-    id: '/tiptap/',
-    path: '/tiptap/',
-    getParentRoute: () => AuthenticatedRouteRoute,
-  } as any,
-).lazy(() =>
-  import('./routes/_authenticated/tiptap/index.lazy').then((d) => d.Route),
 )
 
 const AuthenticatedTasksIndexLazyRoute =
@@ -474,7 +473,7 @@ declare module '@tanstack/react-router' {
       id: '/_authenticated/tiptap/'
       path: '/tiptap'
       fullPath: '/tiptap'
-      preLoaderRoute: typeof AuthenticatedTipTapIndexLazyImport
+      preLoaderRoute: typeof AuthenticatedTiptapIndexLazyImport
       parentRoute: typeof AuthenticatedRouteImport
     }
     '/_authenticated/users/': {
@@ -523,6 +522,7 @@ interface AuthenticatedRouteRouteChildren {
   AuthenticatedHelpCenterIndexLazyRoute: typeof AuthenticatedHelpCenterIndexLazyRoute
   AuthenticatedTasksIndexLazyRoute: typeof AuthenticatedTasksIndexLazyRoute
   AuthenticatedTestIndexLazyRoute: typeof AuthenticatedTestIndexLazyRoute
+  AuthenticatedTiptapIndexLazyRoute: typeof AuthenticatedTiptapIndexLazyRoute
   AuthenticatedUsersIndexLazyRoute: typeof AuthenticatedUsersIndexLazyRoute
 }
 
@@ -535,6 +535,7 @@ const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
   AuthenticatedHelpCenterIndexLazyRoute: AuthenticatedHelpCenterIndexLazyRoute,
   AuthenticatedTasksIndexLazyRoute: AuthenticatedTasksIndexLazyRoute,
   AuthenticatedTestIndexLazyRoute: AuthenticatedTestIndexLazyRoute,
+  AuthenticatedTiptapIndexLazyRoute: AuthenticatedTiptapIndexLazyRoute,
   AuthenticatedUsersIndexLazyRoute: AuthenticatedUsersIndexLazyRoute,
 }
 
@@ -565,7 +566,7 @@ export interface FileRoutesByFullPath {
   '/settings/': typeof AuthenticatedSettingsIndexLazyRoute
   '/tasks': typeof AuthenticatedTasksIndexLazyRoute
   '/test': typeof AuthenticatedTestIndexLazyRoute
-  '/tiptap': typeof AuthenticatedTestIndexLazyRoute
+  '/tiptap': typeof AuthenticatedTiptapIndexLazyRoute
   '/users': typeof AuthenticatedUsersIndexLazyRoute
 }
 
@@ -591,7 +592,7 @@ export interface FileRoutesByTo {
   '/settings': typeof AuthenticatedSettingsIndexLazyRoute
   '/tasks': typeof AuthenticatedTasksIndexLazyRoute
   '/test': typeof AuthenticatedTestIndexLazyRoute
-  '/tiptap': typeof AuthenticatedTestIndexLazyRoute
+  '/tiptap': typeof AuthenticatedTiptapIndexLazyRoute
   '/users': typeof AuthenticatedUsersIndexLazyRoute
 }
 
@@ -621,7 +622,7 @@ export interface FileRoutesById {
   '/_authenticated/settings/': typeof AuthenticatedSettingsIndexLazyRoute
   '/_authenticated/tasks/': typeof AuthenticatedTasksIndexLazyRoute
   '/_authenticated/test/': typeof AuthenticatedTestIndexLazyRoute
-  '/_authenticated/tiptap/': typeof AuthenticatedTestIndexLazyRoute
+  '/_authenticated/tiptap/': typeof AuthenticatedTiptapIndexLazyRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexLazyRoute
 }
 
@@ -773,6 +774,7 @@ export const routeTree = rootRoute
         "/_authenticated/help-center/",
         "/_authenticated/tasks/",
         "/_authenticated/test/",
+        "/_authenticated/tiptap/",
         "/_authenticated/users/"
       ]
     },
@@ -862,6 +864,10 @@ export const routeTree = rootRoute
     },
     "/_authenticated/test/": {
       "filePath": "_authenticated/test/index.lazy.tsx",
+      "parent": "/_authenticated"
+    },
+    "/_authenticated/tiptap/": {
+      "filePath": "_authenticated/tiptap/index.lazy.tsx",
       "parent": "/_authenticated"
     },
     "/_authenticated/users/": {

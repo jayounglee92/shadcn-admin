@@ -77,7 +77,25 @@ export default {
           ring: 'hsl(var(--sidebar-ring))',
         },
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            h5: {
+              fontSize: '1rem', // 16px
+              fontWeight: '600',
+              marginTop: '1.5em',
+              marginBottom: '0.5em',
+            },
+            h6: {
+              fontSize: '0.875rem', // 14px
+              fontWeight: '600',
+              marginTop: '1.5em',
+              marginBottom: '0.5em',
+            },
+          },
+        },
+      },
     },
   },
-  plugins: [tailwindCssAnimate],
+  plugins: [tailwindCssAnimate, require('@tailwindcss/typography')],
 }
