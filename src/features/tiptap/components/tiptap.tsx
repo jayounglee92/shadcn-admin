@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react'
 import { Color } from '@tiptap/extension-color'
 import Highlight from '@tiptap/extension-highlight'
+import Image from '@tiptap/extension-image'
 import Link from '@tiptap/extension-link'
 import ListItem from '@tiptap/extension-list-item'
-import Subscript from '@tiptap/extension-subscript'
-import Superscript from '@tiptap/extension-superscript'
 import TextAlign from '@tiptap/extension-text-align'
 import TextStyle from '@tiptap/extension-text-style'
 import Underline from '@tiptap/extension-underline'
-import { BubbleMenu, EditorProvider, useEditor } from '@tiptap/react'
+import { EditorProvider, useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
+import { ImageNode } from './image-node'
 import MenuBar from './menu-bar'
 
 const content = `
@@ -62,10 +62,7 @@ const extensions = [
   Color,
   ListItem,
   TextStyle,
-  Highlight,
   Link,
-  Subscript,
-  Superscript,
   Underline,
   TextAlign.configure({
     types: [
@@ -81,6 +78,10 @@ const extensions = [
     defaultAlignment: 'left',
   }),
   Highlight.configure({ multicolor: true }),
+  Image.configure({
+    inline: true,
+  }),
+  ImageNode,
 ]
 
 const RichTextEditor = () => {
@@ -98,21 +99,23 @@ const RichTextEditor = () => {
   }, [isEditable, editor])
 
   return (
-    <EditorProvider
-      extensions={extensions}
-      content={content}
-      // editorProps={{
-      //   attributes: {
-      //     class:
-      //       'prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
-      //   },
-      // }}
-    >
-      <BubbleMenu editor={null}>
+    <>
+      <EditorProvider
+        extensions={extensions}
+        content={content}
+        // editorProps={{
+        //   attributes: {
+        //     class:
+        //       'prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
+        //   },
+        // }}
+      >
+        {/* https://github.com/ueberdosis/tiptap/discussions/1014 */}
+        {/* <BubbleMenu editor={null}>{editor && <MenuBar />}</BubbleMenu> */}
+
         {editor && <MenuBar />}
-        {/* <FloatingMenu editor={null}>This is the floating menu</FloatingMenu>*/}
-      </BubbleMenu>
-    </EditorProvider>
+      </EditorProvider>
+    </>
   )
 }
 
