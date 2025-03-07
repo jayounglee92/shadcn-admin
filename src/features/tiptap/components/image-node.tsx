@@ -132,10 +132,7 @@ const ImageNodeComponent = () => {
       className='image-node cursor-pointer rounded-sm border-2 border-dashed hover:border-slate-300'
     >
       <div className='m-0 p-0' data-drag-handle='true'>
-        <div
-          className='flex flex-col items-center justify-center rounded-lg bg-opacity-80 px-8 py-10'
-          contentEditable='false'
-        >
+        <div className='flex flex-col items-center justify-center rounded-lg bg-opacity-80 px-8 py-10'>
           {isLoading ? (
             <LoaderCircle className='m-auto animate-spin' size={32} />
           ) : (

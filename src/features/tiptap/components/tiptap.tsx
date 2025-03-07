@@ -63,7 +63,6 @@ const extensions = [
       'listItem',
       'bulletList',
       'orderedList',
-      'blockquote',
       'image',
     ],
     alignments: ['left', 'center', 'right', 'justify'],
@@ -74,6 +73,9 @@ const extensions = [
     inline: true,
   }),
   ImageNode,
+  Color.configure({
+    types: ['textStyle'],
+  }),
 ]
 
 const RichTextEditor = () => {
