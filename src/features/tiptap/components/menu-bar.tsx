@@ -1,5 +1,5 @@
-import { BubbleMenu, useCurrentEditor } from '@tiptap/react'
-import { Quote, Minus, Palette, Highlighter, Link, Image } from 'lucide-react'
+import { useCurrentEditor } from '@tiptap/react'
+import { Highlighter, Link, Image } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { AlignDropdownMenu } from './align-dropdown-menu'
 import MarksMenu from './marks-meun'
@@ -21,19 +21,19 @@ const MenuBar = () => {
       <MenuBarDivider />
       <AlignDropdownMenu editor={editor} />
       <MenuBarDivider />
-      <Button
+      {/* <Button
         onClick={() => editor.chain().focus().toggleBlockquote().run()}
         className={editor.isActive('blockquote') ? 'is-active' : ''}
         variant='ghost'
       >
         <Quote size={34} />
-      </Button>
-      <Button
+      </Button> */}
+      {/* <Button
         onClick={() => editor.chain().focus().setHorizontalRule().run()}
         variant='ghost'
       >
         <Minus size={34} />
-      </Button>
+      </Button> */}
       <Button
         onClick={() => editor.chain().focus().toggleHighlight().run()}
         className={editor.isActive('highlight') ? 'is-active' : ''}

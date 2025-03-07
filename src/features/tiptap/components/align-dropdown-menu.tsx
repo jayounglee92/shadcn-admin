@@ -42,25 +42,27 @@ export function AlignDropdownMenu({ editor }: { editor: Editor }) {
   )?.icon
 
   return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button variant='ghost'>
-          {activeIcon} <ChevronDown />
+    // <Popover>
+    //   <PopoverTrigger asChild>
+    //     <Button variant='ghost'>
+    //       {activeIcon} <ChevronDown />
+    //     </Button>
+    //   </PopoverTrigger>
+    //   <PopoverContent className='flex flex-col rounded-lg border border-neutral-200 bg-white px-2 py-4 shadow-sm dark:border-neutral-800 dark:bg-black'>
+    <div>
+      {ALIGN_MAP.map(({ icon, type, text }) => (
+        <Button
+          key={type}
+          onClick={() => editor.chain().focus().setTextAlign(type).run()}
+          isActive={editor.isActive({ textAlign: type })}
+          variant='ghost'
+          // className='w-full justify-start'
+        >
+          {icon}
         </Button>
-      </PopoverTrigger>
-      <PopoverContent className='flex flex-col rounded-lg border border-neutral-200 bg-white px-2 py-4 shadow-sm dark:border-neutral-800 dark:bg-black'>
-        {ALIGN_MAP.map(({ icon, type, text }) => (
-          <Button
-            key={type}
-            onClick={() => editor.chain().focus().setTextAlign(type).run()}
-            isActive={editor.isActive({ textAlign: type })}
-            variant='ghost'
-            className='w-full justify-start'
-          >
-            {icon} <span>{text}</span>
-          </Button>
-        ))}
-      </PopoverContent>
-    </Popover>
+      ))}
+    </div>
+    //   </PopoverContent>
+    // </Popover>
   )
 }

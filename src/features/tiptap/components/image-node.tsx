@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -6,7 +6,7 @@ import supabase from '@/server/supabase'
 import { Node } from '@tiptap/core'
 import { NodeViewWrapper, useCurrentEditor } from '@tiptap/react'
 import { ReactNodeViewRenderer } from '@tiptap/react'
-import { Image, Loader, LoaderCircle, UploadIcon } from 'lucide-react'
+import { Image, LoaderCircle } from 'lucide-react'
 import { v4 as uuidv4 } from 'uuid'
 import {
   Form,
@@ -36,19 +36,42 @@ const formSchema = z.object({
 const ImageNodeComponent = () => {
   const { editor } = useCurrentEditor()
   const [isLoading, setIsLoading] = useState(false) // 로딩 상태 추가
+  const fileInputRef = useRef<HTMLInputElement | null>(null) // useRef를 조건문 밖으로 이동
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { file: undefined },
   })
-  if (!editor) return null
   const fileRef = form.register('file')
 
-  const handleFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const fileList = e.target.files
+  useEffect(() => {
+    if (fileInputRef.current) {
+      fileRef.ref(fileInputRef.current)
+    }
+  }, [fileRef])
+
+  if (!editor) {
+    return null
+  }
+
+  const handleFiles = async (files: FileList | null) => {
+    // 파일 크기 확인
+
+    const fileList = files
     if (fileList) {
       const filesArray = Array.from(fileList)
       filesArray.forEach((file) => {
+        const maxFileSize = 200 * 1024 // 200KB
+
+        if (file.size > maxFileSize) {
+          window.alert(
+            '파일 크기가 200KB를 초과합니다. 다른 파일을 선택해 주세요.'
+          )
+          if (fileInputRef.current) {
+            fileInputRef.current.value = '' // 파일 입력 필드 초기화
+          }
+          return
+        }
         handleAddImages(file)
       })
     }
@@ -58,6 +81,7 @@ const ImageNodeComponent = () => {
     setIsLoading(true) // 로딩 시작
     try {
       const imageFileName = uuidv4()
+
       // 업로드
       const { data, error } = await supabase.storage
         .from('image')
@@ -81,7 +105,7 @@ const ImageNodeComponent = () => {
         .chain()
         .focus()
         .insertContent(
-          `<img src="${res.data.publicUrl}" alt="uploaded image" />`
+          `<img src="${res.data.publicUrl}" alt="uploaded image"/>`
         )
         .run()
     } catch (error) {
@@ -95,8 +119,18 @@ const ImageNodeComponent = () => {
     }
   }
 
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault()
+    const files = e.dataTransfer.files
+    handleFiles(files)
+  }
+
   return (
-    <NodeViewWrapper className='image-node rounded-sm border-2 border-dashed hover:border-slate-300'>
+    <NodeViewWrapper
+      onDrop={handleDrop}
+      onDragOver={(e) => e.preventDefault()}
+      className='image-node cursor-pointer rounded-sm border-2 border-dashed hover:border-slate-300'
+    >
       <div className='m-0 p-0' data-drag-handle='true'>
         <div
           className='flex flex-col items-center justify-center rounded-lg bg-opacity-80 px-8 py-10'
@@ -113,7 +147,7 @@ const ImageNodeComponent = () => {
                 </div>
                 <div>
                   <Form {...form}>
-                    <form id='image-upload-form'>
+                    <form id='image-upload-form' className='cursor-pointer'>
                       <FormField
                         control={form.control}
                         name='file'
@@ -124,8 +158,8 @@ const ImageNodeComponent = () => {
                               <Input
                                 type='file'
                                 {...fileRef}
-                                className='h-8 w-48 cursor-pointer'
-                                onChange={handleFiles}
+                                className='h-8'
+                                onChange={(e) => handleFiles(e.target.files)}
                                 accept='.jpg,.jpeg,.png,.webp,.gif'
                               />
                             </FormControl>

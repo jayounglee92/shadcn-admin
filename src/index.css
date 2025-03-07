@@ -149,7 +149,20 @@
   @apply p-4;
   @apply prose prose-sm sm:prose lg:prose-lg xl:prose-xl;
 
-  p, h1, h2, h3, h4, h5, h6, ol, ul, li { 
-    @apply mt-0 mb-0 !important;
-  }  
+  p,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  ol,
+  ul,
+  li {
+    @apply mb-0 mt-0 !important;
+  }
+
+  img {
+    display: inline;
+  }
 }
