@@ -1,7 +1,9 @@
+import { useCallback } from 'react'
 import { useCurrentEditor } from '@tiptap/react'
 import { Highlighter, Link, Image } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { AlignDropdownMenu } from './align-dropdown-menu'
+import { LinkDropdown } from './link-dropdown'
 import MarksMenu from './marks-meun'
 import MenuBarDivider from './menu-bar-divider'
 import { NodesDropdownMenu } from './nodes-dropdown-menu'
@@ -41,19 +43,13 @@ const MenuBar = () => {
       >
         <Highlighter size={34} />
       </Button>
-      <Button
-        onClick={() => editor.chain().focus().toggleLink().run()}
-        className={editor.isActive('link') ? 'is-active' : ''}
-        variant='ghost'
-      >
-        <Link size={34} />
-      </Button>
+      <LinkDropdown editor={editor} />
       <Button
         onClick={() => {
           editor
             .chain()
             .focus()
-            .insertContent(`<div class="image-node-component" ></div>`)
+            .insertContent(`<div class="image-node-component"></div>`)
             .run()
         }}
         className={editor.isActive('textStyle') ? 'is-active' : ''}

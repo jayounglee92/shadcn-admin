@@ -50,13 +50,12 @@ export function AlignDropdownMenu({ editor }: { editor: Editor }) {
     //   </PopoverTrigger>
     //   <PopoverContent className='flex flex-col rounded-lg border border-neutral-200 bg-white px-2 py-4 shadow-sm dark:border-neutral-800 dark:bg-black'>
     <div>
-      {ALIGN_MAP.map(({ icon, type, text }) => (
+      {ALIGN_MAP.map(({ icon, type }) => (
         <Button
           key={type}
           onClick={() => editor.chain().focus().setTextAlign(type).run()}
           isActive={editor.isActive({ textAlign: type })}
           variant='ghost'
-          // className='w-full justify-start'
         >
           {icon}
         </Button>

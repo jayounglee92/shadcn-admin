@@ -1,11 +1,9 @@
 import { FloatingMenu, useCurrentEditor } from '@tiptap/react'
 import { Image } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { useTipTap } from '../context/tiptap-context'
 
 const SideMenuBar = () => {
   const { editor } = useCurrentEditor()
-  const { setOpen } = useTipTap()
 
   if (!editor) {
     return null

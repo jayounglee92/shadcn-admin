@@ -9,113 +9,16 @@ import {
   Heading1,
   Heading2,
   Heading3,
-  Heading4,
-  Heading5,
-  Heading6,
   List,
   ListOrdered,
   Pilcrow,
 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-type TList = {
-  type: 'bulletList' | 'orderedList'
-  icon: React.ReactNode
-  text: string
-  category: 'List'
-}
-
-type THeading = {
-  type: 'heading'
-  icon: React.ReactNode
-  text: string
-  level: 1 | 2 | 3 | 4 | 5 | 6
-  category: 'Hierarchy'
-}
-
-type TParagraph = {
-  type: 'paragraph'
-  icon: React.ReactNode
-  text: string
-  category: 'Hierarchy'
-}
-
-type TNode = TList | THeading | TParagraph
-
-const NODE_MAP: TNode[] = [
-  {
-    type: 'paragraph',
-    icon: <Pilcrow size={34} />,
-    text: 'Paragraph',
-    category: 'Hierarchy',
-  },
-  {
-    type: 'heading',
-    level: 1,
-    icon: <Heading1 size={34} />,
-    text: 'Heading 1',
-    category: 'Hierarchy',
-  },
-  {
-    type: 'heading',
-    level: 2,
-    icon: <Heading2 size={34} />,
-    text: 'Heading 2',
-    category: 'Hierarchy',
-  },
-  {
-    type: 'heading',
-    level: 3,
-    icon: <Heading3 size={34} />,
-    text: 'Heading 3',
-    category: 'Hierarchy',
-  },
-  // {
-  //   type: 'heading',
-  //   level: 4,
-  //   icon: <Heading4 size={34} />,
-  //   text: 'Heading 4',
-  //   category: 'Hierarchy',
-  // },
-  // {
-  //   type: 'heading',
-  //   level: 5,
-  //   icon: <Heading5 size={34} />,
-  //   text: 'Heading 5',
-  //   category: 'Hierarchy',
-  // },
-  // {
-  //   type: 'heading',
-  //   level: 6,
-  //   icon: <Heading6 size={34} />,
-  //   text: 'Heading 6',
-  //   category: 'Hierarchy',
-  // },
-  { type: 'bulletList', icon: <List />, text: 'Bullet List', category: 'List' },
-  {
-    type: 'orderedList',
-    icon: <ListOrdered size={34} />,
-    text: 'Numbered List',
-    category: 'List',
-  },
-]
-
 export function NodesDropdownMenu({ editor }: { editor: Editor }) {
   if (!editor) {
     return null
   }
-
-  const activeIcon = NODE_MAP.find(({ type, category, ...rest }) => {
-    if (category === 'List') {
-      return editor.isActive(type)
-    }
-    if (type === 'paragraph') {
-      return editor.isActive(type)
-    }
-    if (type === 'heading' && 'level' in rest) {
-      return editor.isActive(type, { level: rest.level })
-    }
-  })?.icon
 
   function toggleNode({
     editor,
@@ -123,8 +26,8 @@ export function NodesDropdownMenu({ editor }: { editor: Editor }) {
     level,
   }: {
     editor: Editor
-    type: string
-    level?: THeading['level']
+    type: 'paragraph' | 'heading' | 'bulletList' | 'orderedList'
+    level?: 1 | 2 | 3
   }) {
     if (type === 'heading' && level) {
       return editor.chain().focus().toggleHeading({ level }).run()
@@ -138,49 +41,57 @@ export function NodesDropdownMenu({ editor }: { editor: Editor }) {
   }
 
   return (
-    // <Popover>
-    //   <PopoverTrigger asChild>
-    //     <Button variant='ghost'>
-    //       {activeIcon} <ChevronDown />
-    //     </Button>
-    //   </PopoverTrigger>
-    //   <PopoverContent className='flex flex-col rounded-lg border border-neutral-200 bg-white px-2 py-4 shadow-sm dark:border-neutral-800 dark:bg-black'>
-
     <>
-      {' '}
-      {['Hierarchy', 'List'].map((category) => (
-        <div key={category} className='flex gap-1 first:mt-0'>
-          {/* <div className='mb-1 px-1.5 text-[.65rem] font-semibold uppercase text-neutral-500 dark:text-neutral-400'>
-            {category}
-          </div> */}
-          {NODE_MAP.filter((node) => node.category === category).map(
-            ({ type, icon, text, ...rest }) => (
-              <Button
-                key={text}
-                onClick={() =>
-                  toggleNode({
-                    editor,
-                    type,
-                    ...('level' in rest ? { level: rest.level } : {}),
-                  })
-                }
-                isActive={
-                  type === 'heading' && 'level' in rest
-                    ? editor.isActive(type, { level: rest.level })
-                    : editor.isActive(type)
-                }
-                variant='ghost'
-                className='w-full justify-start'
-              >
-                {icon}
-                {/* <span>{text}</span> */}
-              </Button>
-            )
-          )}
-        </div>
-      ))}
+      <div className='flex gap-1'>
+        <Button
+          onClick={() => toggleNode({ editor, type: 'paragraph' })}
+          isActive={editor.isActive('paragraph')}
+          variant='ghost'
+          className='w-full justify-start'
+        >
+          <Pilcrow size={34} />
+        </Button>
+        <Button
+          onClick={() => toggleNode({ editor, type: 'heading', level: 1 })}
+          isActive={editor.isActive('heading', { level: 1 })}
+          variant='ghost'
+          className='w-full justify-start'
+        >
+          <Heading1 size={34} />
+        </Button>
+        <Button
+          onClick={() => toggleNode({ editor, type: 'heading', level: 2 })}
+          isActive={editor.isActive('heading', { level: 2 })}
+          variant='ghost'
+          className='w-full justify-start'
+        >
+          <Heading2 size={34} />
+        </Button>
+        <Button
+          onClick={() => toggleNode({ editor, type: 'heading', level: 3 })}
+          isActive={editor.isActive('heading', { level: 3 })}
+          variant='ghost'
+          className='w-full justify-start'
+        >
+          <Heading3 size={34} />
+        </Button>
+        <Button
+          onClick={() => toggleNode({ editor, type: 'bulletList' })}
+          isActive={editor.isActive('bulletList')}
+          variant='ghost'
+          className='w-full justify-start'
+        >
+          <List />
+        </Button>
+        <Button
+          onClick={() => toggleNode({ editor, type: 'orderedList' })}
+          isActive={editor.isActive('orderedList')}
+          variant='ghost'
+          className='w-full justify-start'
+        >
+          <ListOrdered size={34} />
+        </Button>
+      </div>
     </>
-    //  </PopoverContent>
-    // </Popover>
   )
 }
