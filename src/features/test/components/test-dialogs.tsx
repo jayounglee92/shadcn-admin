@@ -1,7 +1,7 @@
 import { toast } from '@/hooks/use-toast'
 import { ConfirmDialog } from '@/components/confirm-dialog'
 import { useTest } from '../context/test-context'
-import { Fruit } from '../hooks/use-search'
+import { Fruit } from '../types'
 import { TasksImportDialog } from './test-import-dialog'
 import { TasksMutateDrawer } from './test-mutate-drawer'
 
@@ -17,7 +17,6 @@ export function TestDialogs({
         key='task-create'
         open={open === 'create'}
         onOpenChange={() => setOpen('create')}
-        // handleSuccess={handleSuccess}
       />
 
       <TasksImportDialog

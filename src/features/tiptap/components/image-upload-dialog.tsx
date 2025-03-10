@@ -47,7 +47,7 @@ interface Props {
 
 export function ImageUploadDialog({ open, onOpenChange }: Props) {
   const [uploadedFileUrl, setUploadedFileUrl] = useState<string[]>([])
-  const [files, setFiles] = useState<File[]>([])
+  const [, setFiles] = useState<File[]>([])
   const { editor } = useCurrentEditor()
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -75,13 +75,15 @@ export function ImageUploadDialog({ open, onOpenChange }: Props) {
         .upload(`rich-text/${newFileName}`, file)
 
       if (error) {
+        // eslint-disable-next-line no-console
         console.log('파일이 업로드 되지 않습니다.', error)
         return
       }
       const res = supabase.storage.from('image').getPublicUrl(data.path)
-      setFiles((prevFiles) => [file, ...prevFiles])
+      setFiles((prevFiles: File[]) => [file, ...prevFiles])
       setUploadedFileUrl((prev: string[]) => [...prev, res.data.publicUrl])
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(
         '알 수 없는 문제가 발생하였습니다. 다시 시도하여 주십시오.',
         error

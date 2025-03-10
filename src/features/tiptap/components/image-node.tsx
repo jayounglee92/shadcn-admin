@@ -88,6 +88,7 @@ const ImageNodeComponent = () => {
         .upload(`rich-text/${imageFileName}`, file)
 
       if (error) {
+        // eslint-disable-next-line no-console
         console.log('파일이 업로드 되지 않습니다.', error)
         window.alert('파일이 업로드 되지 않습니다. 다시 시도하여 주십시오.')
         return
@@ -110,6 +111,7 @@ const ImageNodeComponent = () => {
         .run()
     } catch (error) {
       window.alert('알 수 없는 문제가 발생하였습니다. 다시 시도하여 주십시오.')
+      // eslint-disable-next-line no-console
       console.error(
         '알 수 없는 문제가 발생하였습니다. 다시 시도하여 주십시오.',
         error
@@ -128,7 +130,7 @@ const ImageNodeComponent = () => {
   return (
     <NodeViewWrapper
       onDrop={handleDrop}
-      onDragOver={(e) => e.preventDefault()}
+      onDragOver={(e: React.DragEvent<HTMLDivElement>) => e.preventDefault()}
       className='image-node cursor-pointer rounded-sm border-2 border-dashed hover:border-slate-300'
     >
       <div className='m-0 p-0' data-drag-handle='true'>

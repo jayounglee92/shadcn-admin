@@ -31,13 +31,13 @@ interface Props {
   open: boolean
   onOpenChange: (open: boolean) => void
   currentRow?: Test
-  handleSuccess: (updatedItem: Fruit) => void
+  handleSuccess?: (updatedItem: Fruit) => void
 }
 
 const formSchema = z.object({
   name: z.string().min(1, 'Please select a name.'),
   description: z.string().min(1, 'Please select a description.'),
-  category: z.string().min(1, 'Please choose a category.'),
+  category: z.string().min(1, 'Please choose a category.').optional(),
 })
 
 type TestForm = z.infer<typeof formSchema>
@@ -53,9 +53,10 @@ export function TasksMutateDrawer({
   const form = useForm<TestForm>({
     resolver: zodResolver(formSchema),
     defaultValues: currentRow ?? {
+      id: null,
       name: '',
       description: '',
-      category: '',
+      category: undefined,
     },
   })
 
@@ -76,7 +77,8 @@ export function TasksMutateDrawer({
           form.reset()
 
           if (data && data[0]) {
-            handleSuccess(data[0])
+            if (handleSuccess) handleSuccess(data[0])
+
             toast({
               title: '수정 완료',
               description: '데이터가 성공적으로 수정되었습니다.',
@@ -108,7 +110,6 @@ export function TasksMutateDrawer({
           form.reset()
 
           if (data && data[0]) {
-            console.log(data)
             toast({
               title: '추가 완료',
               description: '데이터가 성공적으로 추가되었습니다.',

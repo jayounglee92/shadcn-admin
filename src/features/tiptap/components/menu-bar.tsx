@@ -16,7 +16,7 @@ const MenuBar = () => {
   if (!editor) {
     return null
   }
-  console.log(editor)
+
   return (
     <div className='left-60 top-16 inline-flex h-fit flex-row items-center gap-0.5 rounded-lg border border-neutral-200 bg-white p-1 leading-none text-black dark:border-neutral-800 dark:bg-black'>
       <NodesDropdownMenu editor={editor} />
@@ -51,7 +51,6 @@ const MenuBar = () => {
           ref={highlighterInputRef}
           onInput={(e) => {
             const target = e.target as HTMLInputElement
-            console.log(target.value)
             editor.chain().focus().setHighlight({ color: target.value }).run()
           }}
           value={editor.getAttributes('highlight').color}

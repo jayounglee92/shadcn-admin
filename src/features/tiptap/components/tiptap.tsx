@@ -79,7 +79,7 @@ const extensions = [
 ]
 
 const RichTextEditor = () => {
-  const [isEditable, setIsEditable] = React.useState(true)
+  const [isEditable] = React.useState(true)
 
   const editor = useEditor({
     extensions: extensions,

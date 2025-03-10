@@ -1,6 +1,6 @@
 export type Fruit = {
-  id: number
+  id: number | null
   name: string
-  description: string | null
-  category: string | null
+  description: string
+  category?: string
 }

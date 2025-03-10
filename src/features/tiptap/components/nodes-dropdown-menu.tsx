@@ -1,11 +1,5 @@
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@radix-ui/react-popover'
 import { Editor } from '@tiptap/react'
 import {
-  ChevronDown,
   Heading1,
   Heading2,
   Heading3,

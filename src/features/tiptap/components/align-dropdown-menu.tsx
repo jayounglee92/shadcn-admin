@@ -1,16 +1,5 @@
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@radix-ui/react-popover'
 import { Editor } from '@tiptap/react'
-import {
-  AlignCenter,
-  AlignJustify,
-  AlignLeft,
-  AlignRight,
-  ChevronDown,
-} from 'lucide-react'
+import { AlignCenter, AlignJustify, AlignLeft, AlignRight } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const ALIGN_MAP = [
@@ -37,19 +26,8 @@ const ALIGN_MAP = [
 ]
 
 export function AlignDropdownMenu({ editor }: { editor: Editor }) {
-  const activeIcon = ALIGN_MAP.find(({ type }) =>
-    editor.isActive({ textAlign: type })
-  )?.icon
-
   return (
-    // <Popover>
-    //   <PopoverTrigger asChild>
-    //     <Button variant='ghost'>
-    //       {activeIcon} <ChevronDown />
-    //     </Button>
-    //   </PopoverTrigger>
-    //   <PopoverContent className='flex flex-col rounded-lg border border-neutral-200 bg-white px-2 py-4 shadow-sm dark:border-neutral-800 dark:bg-black'>
-    <div>
+    <>
       {ALIGN_MAP.map(({ icon, type }) => (
         <Button
           key={type}
@@ -60,8 +38,6 @@ export function AlignDropdownMenu({ editor }: { editor: Editor }) {
           {icon}
         </Button>
       ))}
-    </div>
-    //   </PopoverContent>
-    // </Popover>
+    </>
   )
 }
