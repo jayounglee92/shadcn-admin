@@ -33,7 +33,7 @@ const formSchema = z.object({
     ),
 })
 
-const ImageNodeComponent = () => {
+export const ImageNodeComponent = () => {
   const { editor } = useCurrentEditor()
   const [isLoading, setIsLoading] = useState(false) // 로딩 상태 추가
   const fileInputRef = useRef<HTMLInputElement | null>(null) // useRef를 조건문 밖으로 이동
